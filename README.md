@@ -9,3 +9,6 @@ Dependencies
 ----------------
 1. Express.js
 2. socket.io
+
+
+-[Sagar](http://seaflection.com) and [Alex](http://acoym.com/)
