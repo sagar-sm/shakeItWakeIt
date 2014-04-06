@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Shake Example</title>
+
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <script type="text/javascript" charset="utf-8">
+
+    // The watch id references the current `watchAcceleration`
+    //var watchID = null;
+
+    // Wait for device API libraries to load
+    //
+    document.addEventListener("deviceready", onDeviceReady, false);
+
+    // device APIs are available
+    //
+    function onDeviceReady() {
+        //shake.startWatch(onShake);
+        //var element = document.getElementById('shaker');
+        element.innerHTML = "Watching...";
+    }
+
+    var intensity = 0;
+    var isWatching = false;
+
+    var onShake = function() {
+        //var element = document.getElementById('shaker');
+        //element.innerHTML = "Aha!";
+        intensity++;
+        if(isWatching){
+           $.get("http://166.78.159.225:8080/shake/"+intensity, function(data){
+             console.log(data);
+            });
+        }
+    }
+
+    function toggleWatch(){
+      console.log("clicked");
+
+
+      if(isWatching){
+        $('#toggle').removeClass('watching');
+        $('#toggle').addClass('notWatching');
+        shake.stopWatch();
+        isWatching = false;
+        intensity = 0;
+        $.get("http://166.78.159.225:8080/shake/"+intensity, function(data){
+          console.log(data);
+        });
+        console.log("not watching");
+
+      }
+
+      else {
+        $('#toggle').removeClass('notwatching');
+        $('#toggle').addClass('watching');
+        shake.startWatch(onShake);
+        isWatching = true;
+        console.log("watching");
+      }
+    }
+
+ 
+
+    // onSuccess: Get a snapshot of the current acceleration
+    //
+
+    // onError:
+    //
+    function onError() {
+        alert('Error!');
+    }
+
+    </script>
+  </head>
+  <body>
+   <div class="header">    
+      <div id="title">
+        <img src="img/logo2.png" width="140px" style="float:left">
+      </div>
+    </div>
+
+      <div id="buttonsAll">
+        <div class= "menu">
+          <img src="img/Menu.png" width="120px">
+        </div>  
+        <div class="info">
+          <img src="img/info.png" width="20px">
+        </div>                    
+        <div id="accelerometer">
+          Ready to go? Now all you have to do is follow these simple steps to wake your loved ones in the appropriate manner. 
+        <p>
+          1. Select the person you want to wake
+        <p>
+          2. Shake your phone
+          </p>
+        <div id="toggle" class="notWatching" onClick="toggleWatch()">Sarah</div>
+        </div>  
+
+        </br>
+           <strong> Trying to wake someone who's reluctant to get up? </strong>
+          (Here's a tip): 
+        </br>
+          </br> Shake for 2 seconds = "gentle"
+          </br> Shake for 4 seconds = "sizable"
+          </br> Shake for 6 seconds = "cataclysmic"    
+      </div>
+
+
+  </body>
+</html>
